@@ -79,11 +79,9 @@ npm start       # dist/server.cjs ni ishga tushiradi
 
 ## Vercel'ga deploy qilish
 
-Loyiha Vercel'da ishlashga tayyor. Vercel Express'ni ildizdagi `server.ts`
-faylining default eksporti orqali o'zi taniydi va uni bitta funksiyaga
-aylantiradi. Klient build'i `public/` ga chiqadi — Vercel statik fayllarni
-aynan o'sha yerdan CDN orqali beradi, qolgan barcha so'rovlar Express'ga
-boradi.
+Loyiha Vercel'da ishlashga tayyor. `api/index.ts` Express ilovasini serverless
+funksiya sifatida eksport qiladi, `vercel.json` esa `/api/*` so'rovlarini o'sha
+funksiyaga, qolganini `dist/` statikasiga yo'naltiradi.
 
 Ilova hech narsani serverga yozmaydi — profil va progress foydalanuvchining
 brauzerida turadi. Shuning uchun baza ham, fayl saqlash ham kerak emas.
@@ -105,7 +103,7 @@ brauzerida turadi. Shuning uchun baza ham, fayl saqlash ham kerak emas.
 | | Lokalda | Vercel'da |
 |---|---|---|
 | Server | doimiy Express (`:3000`) | so'rov bo'yicha serverless funksiya |
-| Statik fayllar | Express beradi (`public/`) | Vercel CDN beradi (`public/**`) |
+| Statik fayllar | Express beradi (`dist/`) | Vercel CDN beradi (`dist/`) |
 | Progress | brauzerda | brauzerda — farqi yo'q |
 
 ---
@@ -113,9 +111,9 @@ brauzerida turadi. Shuning uchun baza ham, fayl saqlash ham kerak emas.
 ## Loyiha tuzilishi
 
 ```
-├── server.ts                  Express server + Vercel kirish nuqtasi (default export)
-├── vercel.json                Vercel build buyrug'i
-├── public/                    Vite build natijasi (git'ga kirmaydi)
+├── server.ts                  Express server, AI endpointlari, Azure TTS
+├── api/index.ts               Vercel serverless kirish nuqtasi
+├── vercel.json                Vercel build va marshrut sozlamalari
 ├── src/
 │   ├── App.tsx                Asosiy dashboard va marshrutlash
 │   ├── types.ts               Umumiy TypeScript tiplari

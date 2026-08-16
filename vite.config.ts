@@ -6,13 +6,7 @@ import {defineConfig} from 'vite';
 export default defineConfig(() => {
   return {
     plugins: [react(), tailwindcss()],
-    // Vercel serves an Express project's static assets from public/**, so the
-    // client build has to land there. publicDir is switched off because its
-    // default is that same folder, which Vite refuses to copy into itself.
-    build: {
-      outDir: 'public',
-      emptyOutDir: true,
-    },
+    // No static asset folder of its own; everything ships through the bundle.
     publicDir: false as const,
     resolve: {
       alias: {
