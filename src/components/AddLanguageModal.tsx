@@ -127,19 +127,9 @@ export const AddLanguageModal: React.FC<AddLanguageModalProps> = ({
             <span className="p-2 rounded-lg bg-surface/20 backdrop-blur-sm">
               <Globe2 className="w-5 h-5 text-white" />
             </span>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="px-2.5 py-0.5 rounded-full bg-surface/20 text-white text-[10px] font-bold tracking-wide backdrop-blur-sm uppercase">
-                  TilTop AI Localization Hub
-                </span>
-                <span className="px-2 py-0.5 rounded-full bg-amber-400/30 text-amber-100 text-[10px] font-bold flex items-center gap-1">
-                  <Sparkles className="w-2.5 h-2.5" /> Gemini 3.7 Flash
-                </span>
-              </div>
-              <h2 className="text-xl sm:text-2xl font-semibold tracking-tight mt-0.5">
-                {t('addlang.modal_title', "Yangi Til / Davlat Qo'shish")}
-              </h2>
-            </div>
+            <h2 className="text-xl sm:text-2xl font-semibold tracking-tight">
+              {t('addlang.modal_title', "Yangi Til / Davlat Qo'shish")}
+            </h2>
           </div>
 
           {/* Navigation Tabs */}
@@ -182,25 +172,8 @@ export const AddLanguageModal: React.FC<AddLanguageModalProps> = ({
           {/* ======================================================== */}
           {activeTab === 'site_ui' && (
             <div className="space-y-4">
-              <div className="bg-accent-50/70 border border-accent-200 rounded-lg p-4 flex items-start gap-3">
-                <div className="w-8 h-8 rounded-xl bg-accent-600 text-white flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <Sparkles className="w-4 h-4" />
-                </div>
-                <div className="text-xs text-accent-950">
-                  <p className="font-bold">
-                    Gemini 3.7 Flash AI avtomat sayt tarjimoni:
-                  </p>
-                  <p className="text-accent-800 mt-0.5 leading-relaxed">
-                    {t('addlang.site_ai_desc', "Istalgan til nomini kiriting. Gemini AI butun platforma menyulari, tugmalari, sarlavhalari va dialoglarini shu tilga to'liq tarjima qiladi.")}
-                  </p>
-                </div>
-              </div>
-
               {/* Form to translate */}
               <form onSubmit={handleTranslateSiteUi} className="space-y-3">
-                <label className="block text-xs font-bold text-ink-muted uppercase tracking-wider">
-                  {t('addlang.input_site_label', "Sayt uchun yangi tilni kiriting:")}
-                </label>
                 <div className="flex flex-col sm:flex-row items-stretch gap-2">
                   <input
                     type="text"
@@ -287,25 +260,8 @@ export const AddLanguageModal: React.FC<AddLanguageModalProps> = ({
           {/* ======================================================== */}
           {activeTab === 'target_country' && (
             <div className="space-y-4">
-              <div className="bg-accent-50/70 border border-accent-200 rounded-lg p-4 flex items-start gap-3">
-                <div className="w-8 h-8 rounded-xl bg-accent-600 text-white flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <Compass className="w-4 h-4" />
-                </div>
-                <div className="text-xs text-accent-950">
-                  <p className="font-bold">
-                    Davlat Tili Ustuvorligi va Darsliklar Moslashuvi:
-                  </p>
-                  <p className="text-accent-800 mt-0.5 leading-relaxed">
-                    {t('addlang.learn_ai_desc', "Qaysi davlat tanlansa, o'sha davlatning rasmiy tili ustuvor belgilanadi. Barcha 20 ta darslik, rolli o'yinlar, lug'at va Azure ovozlari o'sha davlat madaniyatiga moslanadi.")}
-                  </p>
-                </div>
-              </div>
-
               {/* Search or Add any Custom Country */}
               <div className="space-y-3">
-                <label className="block text-xs font-bold text-ink-muted uppercase tracking-wider">
-                  {t('addlang.input_learn_label', "Davlat yoki o'rganiladigan tilni kiriting:")}
-                </label>
                 <div className="flex flex-col sm:flex-row items-stretch gap-2">
                   <input
                     type="text"
@@ -353,7 +309,7 @@ export const AddLanguageModal: React.FC<AddLanguageModalProps> = ({
               {/* Quick Pick Popular Countries */}
               <div className="space-y-2 pt-2 border-t border-line">
                 <span className="text-[11px] font-bold text-ink-muted uppercase tracking-wider">
-                  Mashhur Davlatlar (Bir marta bosish orqali ustuvor qilish):
+                  Mashhur davlatlar
                 </span>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-56 overflow-y-auto pr-1">
                   {COUNTRY_LANGUAGES.map((item) => (

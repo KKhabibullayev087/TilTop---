@@ -14,10 +14,8 @@ import {
   Code2, 
   Bot, 
   User, 
-  SlidersHorizontal,
   Lightbulb,
   VolumeX,
-  Radio,
   ChevronRight,
   AlertTriangle
 } from 'lucide-react';
@@ -27,10 +25,7 @@ import {
   UserProfile, 
   ChatMessage 
 } from '../types';
-import { 
-  PROFESSION_OPTIONS, 
-  PROFICIENCY_OPTIONS 
-} from '../data/curriculum';
+import { PROFESSION_OPTIONS } from '../data/curriculum';
 import { playAzureNeuralTts, stopAzureAudio } from '../utils/audioPlayer';
 import { useI18n, translateCategory } from '../utils/i18n';
 
@@ -59,7 +54,6 @@ export const InteractiveLessonLab: React.FC<InteractiveLessonLabProps> = ({
   const [playingAudioId, setPlayingAudioId] = useState<string | null>(null);
 
   const curProf = PROFESSION_OPTIONS.find((p) => p.id === userProfile.profession) || PROFESSION_OPTIONS[0];
-  const curLvl = PROFICIENCY_OPTIONS.find((l) => l.id === userProfile.level) || PROFICIENCY_OPTIONS[0];
 
   // Stop audio when unmounting
   useEffect(() => {
@@ -239,35 +233,26 @@ export const InteractiveLessonLab: React.FC<InteractiveLessonLabProps> = ({
           </button>
 
           <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-xl bg-accent-50 text-accent-700 border border-accent-200">
-                #{section.section_id}
-              </span>
-              <span className="text-xs font-bold text-ink-muted uppercase">
-                {translateCategory(t, section.category)}
-              </span>
-            </div>
-            <h2 className="text-lg sm:text-xl font-semibold text-ink leading-tight mt-0.5">
-              {section.title}
+            <h2 className="text-lg sm:text-xl font-semibold text-ink leading-tight">
+              #{section.section_id} · {section.title}
             </h2>
+            <p className="text-xs text-ink-subtle mt-0.5">
+              {translateCategory(t, section.category)}
+            </p>
             {section.is_localized === false && (
-              <div className="flex items-center gap-1.5 mt-1.5 px-2.5 py-1 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-[11px] font-bold w-fit">
-                <AlertTriangle className="w-3.5 h-3.5 text-amber-600 flex-shrink-0" />
-                <span>
-                  {t('lab.not_localized', "Bu dars hali tanlangan tilga moslashtirilmagan — ingliz tilida ko'rsatilmoqda")}
-                </span>
+              <div
+                title={t('card.not_localized_hint', "Bu dars hali tanlangan tilga moslashtirilmagan")}
+                className="flex items-center gap-1.5 mt-1.5 px-2 py-0.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-900 text-[11px] font-bold w-fit"
+              >
+                <AlertTriangle className="w-3 h-3 text-amber-600 flex-shrink-0" />
+                <span>{t('card.not_localized', 'EN')}</span>
               </div>
             )}
           </div>
         </div>
 
-        {/* Quick Badges & Actions */}
+        {/* Quick Actions */}
         <div className="flex items-center gap-2">
-          
-          <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent-50 border border-accent-100 text-accent-900 text-xs font-bold">
-            <SlidersHorizontal className="w-3.5 h-3.5 text-accent-600" />
-            <span>{curProf.titleUz} ({curLvl.levelCode})</span>
-          </div>
 
           <button
             onClick={() => onOpenGames(section)}
@@ -337,23 +322,6 @@ export const InteractiveLessonLab: React.FC<InteractiveLessonLabProps> = ({
       {/* ======================================================= */}
       {activeTab === 'vocabulary' && (
         <div className="bg-surface rounded-xl border border-line p-6 sm:p-8 space-y-6">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line pb-4">
-            <div>
-              <h3 className="text-base sm:text-lg font-semibold text-ink">
-                Ushbu ssenariy uchun asosiy iboralar
-              </h3>
-              <p className="text-xs text-ink-muted mt-0.5">
-                Microsoft Azure Neural TTS orqali ultra-tabiiy talaffuzni eshiting.
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-accent-700 bg-accent-50 px-3 py-1 rounded-full border border-accent-200 flex items-center gap-1.5">
-                <Radio className="w-3 h-3 text-accent-600" />
-                <span>Azure Neural Audio</span>
-              </span>
-            </div>
-          </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {section.vocabulary.map((item, idx) => {
               const audioId = `vocab-${idx}`;
@@ -385,7 +353,6 @@ export const InteractiveLessonLab: React.FC<InteractiveLessonLabProps> = ({
                       }`}
                     >
                       <Volume2 className={`w-4 h-4 ${isPlaying ? 'text-white animate-bounce' : 'text-accent-600'}`} />
-                      <span className="hidden sm:inline">{isPlaying ? "Eshitilmoqda" : "Tinglash"}</span>
                     </button>
                   </div>
 
@@ -420,21 +387,16 @@ export const InteractiveLessonLab: React.FC<InteractiveLessonLabProps> = ({
       {activeTab === 'dialogue' && (
         <div className="bg-surface rounded-xl border border-line overflow-hidden flex flex-col min-h-[520px]">
           
-          {/* Header Info */}
-          <div className="p-4 bg-surface-muted border-b border-line flex flex-wrap items-center justify-between gap-3 text-xs">
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-ink-muted">{t('lab.ai_partner', "AI Hamkor")}:</span>
-              <span className="font-bold text-accent-700 bg-accent-50 px-2.5 py-0.5 rounded-lg border border-accent-100">
-                {section.ai_role}
-              </span>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-ink-muted">{t('lab.your_role', "Sizning rolingiz")}:</span>
-              <span className="font-bold text-accent-700 bg-accent-50 px-2.5 py-0.5 rounded-lg border border-accent-100">
-                {section.user_role} ({curProf.titleUz})
-              </span>
-            </div>
+          {/* Roles — who is who, in one line */}
+          <div className="p-3 bg-surface-muted border-b border-line flex flex-wrap items-center gap-2 text-[11px]">
+            <span className="font-semibold text-accent-700 bg-accent-50 px-2.5 py-0.5 rounded-lg border border-accent-100">
+              <Bot className="w-3 h-3 inline mr-1 -mt-0.5" />
+              {section.ai_role}
+            </span>
+            <span className="font-semibold text-ink bg-surface px-2.5 py-0.5 rounded-lg border border-line">
+              <User className="w-3 h-3 inline mr-1 -mt-0.5" />
+              {section.user_role}
+            </span>
           </div>
 
           {/* Messages */}
@@ -483,7 +445,7 @@ export const InteractiveLessonLab: React.FC<InteractiveLessonLabProps> = ({
                         }`}
                       >
                         <Volume2 className={`w-3.5 h-3.5 ${isPlaying ? 'text-white' : 'text-accent-600'}`} />
-                        <span>{isPlaying ? t('lab.pronouncing', "Talaffuz qilinmoqda...") : t('lab.listen_audio', "Talaffuzni Eshitish")}</span>
+                        <span>{isPlaying ? t('lab.listening', "O'qilmoqda...") : t('lab.listen', 'Tinglash')}</span>
                       </button>
                     )}
 
@@ -560,14 +522,9 @@ export const InteractiveLessonLab: React.FC<InteractiveLessonLabProps> = ({
         <div className="bg-surface rounded-xl border border-line p-6 sm:p-8 space-y-6">
           
           <div className="border-b border-line pb-4 flex items-center justify-between">
-            <div>
-              <h3 className="text-base sm:text-lg font-semibold text-ink">
-                Ssenariy bo'yicha mustahkamlash testi
-              </h3>
-              <p className="text-xs text-ink-muted mt-0.5">
-                Barcha savollarga to'g'ri javob berib +{section.xp_reward} XP ball qo'lga kiriting!
-              </p>
-            </div>
+            <h3 className="text-base sm:text-lg font-semibold text-ink">
+              {t('lab.quiz', 'Mini Test')}
+            </h3>
 
             <span className="text-xs font-mono font-bold bg-amber-50 text-amber-800 px-3 py-1 rounded-full border border-amber-200">
               +{section.xp_reward} XP

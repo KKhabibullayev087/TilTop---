@@ -11,8 +11,7 @@ import {
   Trophy, 
   Zap, 
   Layers,
-  Award,
-  Radio
+  Award
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { 
@@ -22,8 +21,7 @@ import {
 } from '../types';
 import { 
   OFFICIAL_SECTIONS, 
-  SENTENCE_PUZZLES, 
-  PROFESSION_OPTIONS 
+  SENTENCE_PUZZLES 
 } from '../data/curriculum';
 import { getAdaptedCurriculum, getAdaptedSentencePuzzles } from '../data/curriculumAdapters';
 import { useI18n, translateCategory, translateDifficulty } from '../utils/i18n';
@@ -60,7 +58,6 @@ export const InteractiveGamesHub: React.FC<InteractiveGamesHubProps> = ({
     userProfile.level
   );
   const curSection = adaptedSections.find((s) => s.section_id === selectedSectionId) || adaptedSections[0];
-  const curProf = PROFESSION_OPTIONS.find((p) => p.id === userProfile.profession) || PROFESSION_OPTIONS[0];
 
   // Dynamic puzzles adapted to target language
   const sentencePuzzles = getAdaptedSentencePuzzles(targetLanguage);
@@ -127,6 +124,14 @@ export const InteractiveGamesHub: React.FC<InteractiveGamesHubProps> = ({
     setIsGameRunning(true);
     setGameCompleted(false);
   };
+
+  // Deal the first hand as soon as the hub opens — landing on an empty board
+  // with a frozen timer gives the learner nothing to act on.
+  useEffect(() => {
+    if (matchCards.length === 0) {
+      initWordMatchGame();
+    }
+  }, []);
 
   useEffect(() => {
     let interval: any = null;
@@ -332,30 +337,14 @@ export const InteractiveGamesHub: React.FC<InteractiveGamesHubProps> = ({
     <div id="interactive-games-hub" className="max-w-6xl mx-auto px-4 py-6 sm:py-8 space-y-6">
       
       {/* Top Games Hub Header Banner */}
-      <div className="bg-accent-500 rounded-xl p-6 sm:p-8 text-white relative overflow-hidden">
-        <div className="relative z-10 max-w-3xl space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface/20 text-white text-xs font-bold uppercase tracking-wider backdrop-blur-sm">
-            <Gamepad2 className="w-4 h-4" />
-            <span>{t('games.zone_title', "Interaktiv O'yinlar Zonasi")}</span>
-          </div>
-
-          <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">
-            Zerikishsiz, Qiziqarli O'yinlar Orqali Til O'rganing!
-          </h2>
-
-          <p className="text-xs sm:text-sm text-accent-100 leading-relaxed flex items-center gap-2 flex-wrap">
-            <span>{t('games.lang_label', 'Til')}: <strong className="text-white">{targetLanguage}</strong></span>
-            <span>•</span>
-            <span>{t('games.profile_label', 'Kasbiy profil')}: <strong className="text-white">{curProf.titleUz}</strong></span>
-            <span>•</span>
-            <span className="flex items-center gap-1 text-accent-200">
-              <Radio className="w-3.5 h-3.5" /> Azure Neural Audio
-            </span>
-          </p>
-        </div>
+      <div className="bg-accent-500 rounded-xl p-5 sm:p-6 text-white relative overflow-hidden">
+        <h2 className="relative z-10 flex items-center gap-2 text-xl sm:text-2xl font-semibold tracking-tight">
+          <Gamepad2 className="w-5 h-5" />
+          {t('nav.games', "O'yinlar")}
+        </h2>
 
         {/* 4 Mini-Game Custom Buttons */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mt-6 relative z-10">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mt-5 relative z-10">
           
           <button
             id="game-tab-speed-match"
@@ -372,9 +361,8 @@ export const InteractiveGamesHub: React.FC<InteractiveGamesHubProps> = ({
           >
             <div className="flex items-center gap-2">
               <Zap className={`w-4 h-4 ${selectedGame === 'speed_word_match' ? 'text-amber-500' : 'text-amber-300'}`} />
-              <span className="text-xs font-semibold">1. {t('games.speed_match', "Tezkor So'z")}</span>
+              <span className="text-xs font-semibold">{t('games.speed_match', "Tezkor So'z")}</span>
             </div>
-            <p className="text-[11px] opacity-80 mt-1 truncate">{t('games.sub_speed', "So'z mosligi")}</p>
           </button>
 
           <button
@@ -389,9 +377,8 @@ export const InteractiveGamesHub: React.FC<InteractiveGamesHubProps> = ({
           >
             <div className="flex items-center gap-2">
               <Mic className={`w-4 h-4 ${selectedGame === 'audio_shadowing' ? 'text-accent-600' : 'text-accent-300'}`} />
-              <span className="text-xs font-semibold">2. {t('games.shadowing', 'Audio Shadowing')}</span>
+              <span className="text-xs font-semibold">{t('games.shadowing', 'Audio Shadowing')}</span>
             </div>
-            <p className="text-[11px] opacity-80 mt-1 truncate">{t('games.sub_shadow', 'Talaffuz mashqi')}</p>
           </button>
 
           <button
@@ -406,9 +393,8 @@ export const InteractiveGamesHub: React.FC<InteractiveGamesHubProps> = ({
           >
             <div className="flex items-center gap-2">
               <Layers className={`w-4 h-4 ${selectedGame === 'sentence_builder' ? 'text-accent-500' : 'text-accent-300'}`} />
-              <span className="text-xs font-semibold">3. {t('games.sentence_builder', 'Gap Boshqotirmasi')}</span>
+              <span className="text-xs font-semibold">{t('games.sentence_builder', 'Gap Boshqotirmasi')}</span>
             </div>
-            <p className="text-[11px] opacity-80 mt-1 truncate">{t('games.sub_builder', 'Gap tuzish')}</p>
           </button>
 
           <button
@@ -423,9 +409,8 @@ export const InteractiveGamesHub: React.FC<InteractiveGamesHubProps> = ({
           >
             <div className="flex items-center gap-2">
               <Gamepad2 className={`w-4 h-4 ${selectedGame === 'scenario_roleplay' ? 'text-accent-500' : 'text-accent-300'}`} />
-              <span className="text-xs font-semibold">4. {t('games.roleplay_quest', 'Dialog Ssenariysi')}</span>
+              <span className="text-xs font-semibold">{t('games.roleplay_quest', 'Dialog Ssenariysi')}</span>
             </div>
-            <p className="text-[11px] opacity-80 mt-1 truncate">{t('games.sub_roleplay', 'AI bilan jonli dialog')}</p>
           </button>
 
         </div>
@@ -435,7 +420,7 @@ export const InteractiveGamesHub: React.FC<InteractiveGamesHubProps> = ({
       <div className="bg-surface rounded-xl p-4 sm:p-5 border border-line flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-2 text-xs font-bold text-ink-muted">
           <Layers className="w-4 h-4 text-accent-600" />
-          <span>{t('games.select_scenario', "O'yin mavzusi / Ssenariy tanlang")}:</span>
+          <span>{t('games.select_scenario', 'Ssenariy')}</span>
         </div>
 
         <CustomDropdown
@@ -474,10 +459,7 @@ export const InteractiveGamesHub: React.FC<InteractiveGamesHubProps> = ({
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="text-right">
-                <p className="text-[11px] font-bold text-ink-subtle uppercase">Ball</p>
-                <p className="text-xl font-semibold font-mono text-accent-600">+{matchScore} XP</p>
-              </div>
+              <p className="text-xl font-semibold font-mono text-accent-600">+{matchScore} XP</p>
 
               <button
                 type="button"
@@ -513,10 +495,7 @@ export const InteractiveGamesHub: React.FC<InteractiveGamesHubProps> = ({
                       {card.text}
                     </span>
                     {card.type === 'phrase' && (
-                      <span className="text-[10px] text-ink-subtle font-normal mt-1 flex items-center gap-1">
-                        <Volume2 className="w-3 h-3 text-accent-500" />
-                        <span>Azure Audio</span>
-                      </span>
+                      <Volume2 className="w-3 h-3 text-accent-500 mt-1" />
                     )}
                   </button>
                 );
@@ -526,17 +505,14 @@ export const InteractiveGamesHub: React.FC<InteractiveGamesHubProps> = ({
             <div className="text-center py-10 bg-accent-50/50 rounded-xl border border-accent-200 space-y-4">
               <Trophy className="w-14 h-14 text-amber-500 mx-auto animate-bounce" />
               <h3 className="text-2xl font-semibold text-ink">
-                Ajoyib Natija! Barcha so'zlar topildi!
+                +{matchScore} XP
               </h3>
-              <p className="text-sm text-ink-muted max-w-md mx-auto">
-                Siz <span className="font-bold text-accent-700">{matchScore} XP</span> ball to'pladingiz va ushbu bo'limdagi so'zlarni muvaffaqiyatli eslab qoldingiz.
-              </p>
               <button
                 type="button"
                 onClick={initWordMatchGame}
                 className="px-6 py-3 rounded-lg bg-accent-600 hover:bg-accent-500 text-white font-bold text-sm transition-all cursor-pointer"
               >
-                Yana O'ynash
+                {t('games.restart', 'Qayta boshlash')}
               </button>
             </div>
           )}
@@ -551,14 +527,9 @@ export const InteractiveGamesHub: React.FC<InteractiveGamesHubProps> = ({
         <div className="bg-surface rounded-xl border border-line p-6 sm:p-8 space-y-6">
           
           <div className="border-b border-line pb-4 flex items-center justify-between">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-accent-600">
-                Ovozli Talaffuz O'yini (Azure Audio Shadowing)
-              </span>
-              <h3 className="text-lg font-bold text-ink mt-0.5">
-                Mulketing, Tinglang va Ovoz Chiqarib Takrorlang
-              </h3>
-            </div>
+            <h3 className="text-lg font-bold text-ink">
+              {t('games.shadowing', 'Audio Shadowing')}
+            </h3>
             <span className="text-xs font-mono font-bold bg-accent-50 text-accent-700 px-3 py-1 rounded-full border border-accent-200">
               {shadowingIndex + 1} / {curSection.vocabulary.length}
             </span>
@@ -579,12 +550,10 @@ export const InteractiveGamesHub: React.FC<InteractiveGamesHubProps> = ({
             </h4>
 
             <p className="text-sm font-mono text-accent-700 bg-accent-50 inline-block px-3 py-1 rounded-xl border border-accent-100">
-              Talaffuz: {activeShadowingItem.pronunciation}
+              {activeShadowingItem.pronunciation}
             </p>
 
-            <p className="text-sm text-ink-muted">
-              Tarjimasi: <span className="font-semibold text-ink">{activeShadowingItem.translation}</span>
-            </p>
+            <p className="text-sm font-semibold text-ink">{activeShadowingItem.translation}</p>
           </div>
 
           {/* Mic Record Action */}
@@ -604,7 +573,7 @@ export const InteractiveGamesHub: React.FC<InteractiveGamesHubProps> = ({
             </button>
 
             <p className="text-xs font-bold text-ink-muted">
-              {isRecording ? "Sizni tinglayapman... Gapiring!" : "Mikrofon tugmasini bosing va jumla talaffuz qiling"}
+              {isRecording ? "Gapiring..." : "Bosing va takrorlang"}
             </p>
           </div>
 
@@ -621,13 +590,11 @@ export const InteractiveGamesHub: React.FC<InteractiveGamesHubProps> = ({
               </div>
 
               {spokenTranscript && (
-                <p className="text-xs text-ink-muted">
-                  Eshitilgan matn: <span className="font-semibold text-ink">"{spokenTranscript}"</span>
-                </p>
+                <p className="text-xs font-semibold text-ink">"{spokenTranscript}"</p>
               )}
 
               <p className="text-xs text-ink-muted bg-surface p-3 rounded-xl border border-line">
-                💡 <span className="font-semibold">{shadowScore.feedback}</span> ({shadowScore.tip})
+                💡 <span className="font-semibold">{shadowScore.feedback}</span>
               </p>
             </div>
           )}
@@ -669,28 +636,20 @@ export const InteractiveGamesHub: React.FC<InteractiveGamesHubProps> = ({
         <div className="bg-surface rounded-xl border border-line p-6 sm:p-8 space-y-6">
           
           <div className="border-b border-line pb-3 flex items-center justify-between">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-wider text-accent-600">
-                Gap Tuzish Boshqotirmasi (Sentence Puzzle)
-              </span>
-              <h3 className="text-lg font-bold text-ink mt-0.5">
-                So'zlarni To'g'ri Ketma-ketlikda Joylashtiring
-              </h3>
-            </div>
+            <h3 className="text-lg font-bold text-ink">
+              {t('games.sentence_builder', 'Gap Boshqotirmasi')}
+            </h3>
             <span className="text-xs font-mono font-bold bg-accent-50 text-accent-700 px-3 py-1 rounded-full border border-accent-200">
-              Boshqotirma {puzzleIndex + 1}/{SENTENCE_PUZZLES.length}
+              {puzzleIndex + 1}/{SENTENCE_PUZZLES.length}
             </span>
           </div>
 
           <div className="bg-surface-muted rounded-lg p-4 border border-line">
-            <p className="text-xs font-bold text-ink-muted uppercase tracking-wide">
-              Tarjima qilinishi kerak bo'lgan jumla:
-            </p>
-            <p className="text-base sm:text-lg font-bold text-ink mt-1">
+            <p className="text-base sm:text-lg font-bold text-ink">
               "{currentPuzzle.translation}"
             </p>
             <p className="text-xs text-ink-muted mt-1">
-              💡 Maslahat: {currentPuzzle.hint}
+              💡 {currentPuzzle.hint}
             </p>
           </div>
 
@@ -698,7 +657,7 @@ export const InteractiveGamesHub: React.FC<InteractiveGamesHubProps> = ({
           <div className="min-h-[75px] bg-accent-50/30 rounded-lg border-2 border-dashed border-accent-300 p-3.5 flex flex-wrap items-center gap-2">
             {assembledWords.length === 0 ? (
               <span className="text-xs text-ink-subtle italic">
-                Pastdagi so'z bo'laklariga bosing, ular shu yerda tartib bilan joylashadi...
+                So'zlarni tartib bilan bosing...
               </span>
             ) : (
               assembledWords.map((word, idx) => (
@@ -716,9 +675,6 @@ export const InteractiveGamesHub: React.FC<InteractiveGamesHubProps> = ({
 
           {/* Available Word Tiles */}
           <div className="space-y-2">
-            <p className="text-xs font-bold text-ink-muted uppercase">
-              Mavjud so'z bo'laklari:
-            </p>
             <div className="flex flex-wrap gap-2">
               {availableWords.map((word, idx) => (
                 <button
@@ -746,7 +702,7 @@ export const InteractiveGamesHub: React.FC<InteractiveGamesHubProps> = ({
               )}
               <div className="text-xs">
                 <p className="font-bold">
-                  {puzzleChecked ? "To'ppa-to'g'ri! Mukammal grammatik tartib!" : "Ketma-ketlikda xatolik bor. Qaytadan urinib ko'ring."}
+                  {puzzleChecked ? "To'g'ri!" : "Xato — qaytadan urinib ko'ring."}
                 </p>
                 {puzzleChecked && (
                   <p className="font-mono mt-0.5">"{currentPuzzle.targetSentence}"</p>
@@ -776,7 +732,7 @@ export const InteractiveGamesHub: React.FC<InteractiveGamesHubProps> = ({
                 disabled={assembledWords.length === 0}
                 className="px-5 py-2.5 rounded-xl bg-accent-600 hover:bg-accent-500 text-white font-bold text-xs sm:text-sm transition-all disabled:opacity-40 cursor-pointer"
               >
-                Tekshirish
+                {t('lab.grade_quiz', 'Tekshirish')}
               </button>
 
               <button
@@ -806,14 +762,9 @@ export const InteractiveGamesHub: React.FC<InteractiveGamesHubProps> = ({
             #{curSection.section_id} — {curSection.title}
           </h3>
 
-          <p className="text-xs sm:text-sm text-ink-muted max-w-lg mx-auto leading-relaxed">
-            AI suhbatdosh bilan real hayotiy dialog orqali jonli muloqot qiling. Sizning kasbingiz ({curProf.titleUz}) va darajangizga mos savollar beriladi.
+          <p className="text-xs text-ink-muted max-w-md mx-auto">
+            <span className="font-semibold text-accent-600">{t('games.ai_partner', 'AI hamkor')}:</span> {curSection.ai_role}
           </p>
-
-          <div className="p-4 rounded-lg bg-surface-muted border border-line text-xs text-ink-muted max-w-md mx-auto text-left space-y-1">
-            <p><span className="font-bold text-ink">{t('games.scenario_label', 'Ssenariy')}:</span> {curSection.scenario_context}</p>
-            <p><span className="font-bold text-accent-600">{t('games.ai_partner', 'AI hamkor')}:</span> {curSection.ai_role}</p>
-          </div>
 
           <button
             type="button"

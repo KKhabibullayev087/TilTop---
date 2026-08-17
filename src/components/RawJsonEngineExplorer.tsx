@@ -110,30 +110,19 @@ export const RawJsonEngineExplorer: React.FC<RawJsonEngineExplorerProps> = ({
       
       {/* Top Banner */}
       <div className="bg-slate-900 text-white rounded-xl p-6 sm:p-8 relative overflow-hidden">
-        <div className="max-w-3xl space-y-2 relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-500/20 text-accent-300 text-xs font-mono font-bold uppercase tracking-wider">
-            <Code2 className="w-4 h-4 text-accent-400" />
-            <span>{t('json.title', 'TilTop Raw JSON Engine')}</span>
-          </div>
-
-          <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight">
-            Standartlashtirilgan Raw JSON Ssenariylar Generatori
+        <div className="max-w-3xl space-y-3 relative z-10">
+          <h2 className="flex items-center gap-2 text-2xl sm:text-3xl font-semibold tracking-tight">
+            <Code2 className="w-6 h-6 text-accent-400" />
+            {t('json.title', 'Raw JSON Engine')}
           </h2>
 
-          <p className="text-xs sm:text-sm text-ink-subtle leading-relaxed">
-            Talab qilingan 20 ta ssenariy va har qanday maxsus til/mavzu bo'yicha toza, 100% sxemaga mos keluvchi JSON formatdagi dars kontentini yarating va sinovdan o'tkazing.
-          </p>
-
-          <div className="flex items-center gap-3 pt-2 text-xs font-mono text-ink-subtle flex-wrap">
+          <div className="flex items-center gap-3 text-xs font-mono text-ink-subtle flex-wrap">
             <span className="bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700">
-              Til: <strong className="text-accent-400">{targetLanguage}</strong>
-            </span>
-            <span className="bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700">
-              Kasb: <strong className="text-accent-400">{curProf.titleUz}</strong>
+              <strong className="text-accent-400">{targetLanguage}</strong> · {curProf.titleUz}
             </span>
             <span className="bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700 flex items-center gap-1">
               <Cpu className="w-3.5 h-3.5 text-amber-400" />
-              <span>Dvigatel: {generatedJson._engineUsed ? generatedJson._engineUsed.toUpperCase() : "GEMINI / MISTRAL / OPENAI"}</span>
+              <span>{generatedJson._engineUsed ? generatedJson._engineUsed.toUpperCase() : 'AI'}</span>
             </span>
           </div>
         </div>

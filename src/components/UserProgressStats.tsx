@@ -111,17 +111,12 @@ export const UserProgressStats: React.FC<UserProgressStatsProps> = ({
           </div>
 
           <div>
-            <div className="flex items-center gap-2">
-              <h2 className="text-xl sm:text-2xl font-semibold text-ink">
-                {t('stats.learner', "TilTop O'quvchisi")}
-              </h2>
-              <span className="px-2.5 py-0.5 rounded-full bg-accent-100 text-accent-800 text-[11px] font-bold border border-accent-200">
-                {t('stats.active', 'Faol')}
-              </span>
-            </div>
+            <h2 className="text-xl sm:text-2xl font-semibold text-ink">
+              {t('stats.title', 'Natijalar')}
+            </h2>
 
             <p className="text-xs sm:text-sm text-ink-muted mt-1">
-              {t('stats.learning_lang', "O'rganilayotgan til")}: <strong className="text-ink">{currentCountry.languageName}</strong> • {t('hero.selected_role', 'Kasb')}: <strong className="text-accent-700">{curProf.titleUz}</strong> • {t('hero.selected_level', 'Daraja')}: <strong className="text-accent-700">{curLvl.levelCode}</strong>
+              {currentCountry.languageName} · {curProf.titleUz} · {curLvl.levelCode}
             </p>
           </div>
         </div>
@@ -188,16 +183,11 @@ export const UserProgressStats: React.FC<UserProgressStatsProps> = ({
       {/* 3D Colorful Badges Showcase */}
       <div className="bg-surface rounded-xl border border-line p-6 sm:p-8 space-y-5">
         <div className="flex items-center justify-between border-b border-line pb-3">
-          <div>
-            <h3 className="text-lg font-semibold text-ink">
-              {t('stats.badges_title', 'Yutuqlar va Nishonlar')}
-            </h3>
-            <p className="text-xs text-ink-muted mt-0.5">
-              {t('stats.badges_desc', "Darslar va o'yinlarni bajarib nishonlarni oching.")}
-            </p>
-          </div>
+          <h3 className="text-lg font-semibold text-ink">
+            {t('stats.badges_title', 'Yutuqlar va Nishonlar')}
+          </h3>
           <span className="text-xs font-bold font-mono bg-accent-50 text-accent-700 px-3 py-1 rounded-full border border-accent-200">
-            {badges.filter(b => b.unlocked).length} / {badges.length} {t('stats.unlocked', 'Ochilgan')}
+            {badges.filter(b => b.unlocked).length} / {badges.length}
           </span>
         </div>
 
@@ -222,7 +212,10 @@ export const UserProgressStats: React.FC<UserProgressStatsProps> = ({
                   </h4>
                   {badge.unlocked && <CheckCircle2 className="w-3.5 h-3.5 text-accent-600" />}
                 </div>
-                <p className="text-xs text-ink-muted mt-0.5 leading-snug">
+                <p
+                  title={badge.description}
+                  className="text-xs text-ink-muted mt-0.5 leading-snug line-clamp-1"
+                >
                   {badge.description}
                 </p>
               </div>
@@ -234,7 +227,7 @@ export const UserProgressStats: React.FC<UserProgressStatsProps> = ({
       {/* 20 Scenarios Checklist Grid */}
       <div className="bg-surface rounded-xl border border-line p-6 sm:p-8 space-y-4">
         <h3 className="text-lg font-semibold text-ink">
-          20 Ta Ssenariy Bo'yicha Holat
+          {t('nav.scenarios', '20 Ssenariy')}
         </h3>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-2.5">

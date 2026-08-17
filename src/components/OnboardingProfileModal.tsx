@@ -105,12 +105,9 @@ export const OnboardingProfileModal: React.FC<OnboardingProfileModalProps> = ({
             <div className="flex items-center gap-3">
               <span className="text-3xl filter drop-">{flag}</span>
               <div>
-                <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-0.5 rounded-full bg-surface/20 text-white text-[11px] font-bold tracking-wide backdrop-blur-sm uppercase">
-                    TilTop Profil Sozlamalari
-                  </span>
-                  <span className="text-accent-100 text-xs font-semibold">Qadam {step}/2</span>
-                </div>
+                <span className="text-accent-100 text-xs font-semibold">
+                  {t('onboarding.step', 'Qadam')} {step}/2
+                </span>
                 <h2 className="text-xl sm:text-2xl font-semibold tracking-tight mt-0.5">
                   {languageName}
                 </h2>
@@ -123,9 +120,6 @@ export const OnboardingProfileModal: React.FC<OnboardingProfileModalProps> = ({
               <span className={`w-2.5 h-2.5 rounded-full transition-all ${step === 2 ? 'bg-surface scale-110 ring-2 ring-white/50' : 'bg-surface/40'}`} />
             </div>
           </div>
-          <p className="text-xs sm:text-sm text-accent-50 mt-2 leading-relaxed">
-            Multi-LLM o'qituvchi barcha 20 ta ssenariy, so'zlar to'plami va mini-o'yinlarni aynan sizning kasbingiz va darajangizga moslashtiradi.
-          </p>
         </div>
 
         {/* Modal Content Body */}
@@ -135,15 +129,9 @@ export const OnboardingProfileModal: React.FC<OnboardingProfileModalProps> = ({
           {step === 1 && (
             <div className="space-y-4">
               <div className="border-b border-line pb-3">
-                <span className="text-xs font-bold text-accent-600 uppercase tracking-wider">
-                  Savol 1 (Majburiy)
-                </span>
-                <h3 className="text-lg font-bold text-ink mt-0.5">
-                  Sizning asosiy kasbingiz yoki maqsadingiz nima?
+                <h3 className="text-lg font-bold text-ink">
+                  {t('onboarding.profession_q', 'Kasbingiz?')}
                 </h3>
-                <p className="text-xs text-ink-muted">
-                  Darslardagi texnik terminlar, rol o'yinlari va dialoglar shu rolingizga qarab o'zgaradi.
-                </p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -192,15 +180,9 @@ export const OnboardingProfileModal: React.FC<OnboardingProfileModalProps> = ({
           {step === 2 && (
             <div className="space-y-4">
               <div className="border-b border-line pb-3">
-                <span className="text-xs font-bold text-accent-600 uppercase tracking-wider">
-                  Savol 2 (Majburiy)
-                </span>
-                <h3 className="text-lg font-bold text-ink mt-0.5">
-                  Hozirgi til bilish darajangiz qanday?
+                <h3 className="text-lg font-bold text-ink">
+                  {t('onboarding.level_q', 'Til darajangiz?')}
                 </h3>
-                <p className="text-xs text-ink-muted">
-                  AI javoblar tezligi, gaplar murakkabligi va o'yin qiyinligi ushbu darajaga moslashadi.
-                </p>
               </div>
 
               <div className="space-y-3">
@@ -243,16 +225,18 @@ export const OnboardingProfileModal: React.FC<OnboardingProfileModalProps> = ({
               </div>
 
               {/* Personalization Summary Box */}
-              <div className="bg-surface-muted border border-line rounded-lg p-4 flex items-start gap-3 text-xs text-ink-muted">
-                <ShieldCheck className="w-5 h-5 text-accent-600 flex-shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-semibold text-ink">
-                    Siz uchun shaxsiylashtirilgan o'quv dasturi faollashtiriladi:
-                  </p>
-                  <p className="mt-1 text-ink-muted">
-                    {t('games.lang_label', 'Til')}: <span className="font-bold text-ink">{languageName}</span> • {t('hero.selected_role', 'Kasb')}: <span className="font-bold text-accent-700">{PROFESSION_OPTIONS.find(p => p.id === selectedProfession)?.titleUz}</span> • Daraja: <span className="font-bold text-accent-700">{PROFICIENCY_OPTIONS.find(l => l.id === selectedLevel)?.levelCode}</span>
-                  </p>
-                </div>
+              <div className="bg-surface-muted border border-line rounded-lg p-4 flex items-center gap-3 text-xs text-ink-muted">
+                <ShieldCheck className="w-5 h-5 text-accent-600 flex-shrink-0" />
+                <p>
+                  <span className="font-bold text-ink">{languageName}</span> ·{' '}
+                  <span className="font-bold text-accent-700">
+                    {PROFESSION_OPTIONS.find((p) => p.id === selectedProfession)?.titleUz}
+                  </span>{' '}
+                  ·{' '}
+                  <span className="font-bold text-accent-700">
+                    {PROFICIENCY_OPTIONS.find((l) => l.id === selectedLevel)?.levelCode}
+                  </span>
+                </p>
               </div>
             </div>
           )}

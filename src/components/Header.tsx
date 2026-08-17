@@ -113,9 +113,6 @@ export const Header: React.FC<HeaderProps> = ({
                       <Languages className="w-3 h-3" />
                       {t('header.learning_lang', "O'rganilayotgan Til")}
                     </span>
-                    <p className="text-[11px] text-ink-subtle mt-0.5 leading-relaxed">
-                      {t('header.target_hint', 'Tanlangan davlat tiliga barcha darslar moslashtiriladi.')}
-                    </p>
                   </div>
 
                   <button

@@ -353,11 +353,8 @@ function TilTopDashboard({ onExit }: { onExit: () => void }) {
                     <span>{curProf.titleUz}</span>
                   </div>
                   <h1 className="text-2xl font-bold text-ink tracking-tight">
-                    {t('hero.title', '20 Ta Hayotiy Til Ssenariylari')}
+                    {t('hero.title', '20 ta hayotiy ssenariy')}
                   </h1>
-                  <p className="text-sm text-ink-muted max-w-xl leading-relaxed">
-                    {t('hero.subtitle', "Har bir dars sizning kasbingiz va tanlangan davlat tilingizga moslashtirilgan.")}
-                  </p>
                 </div>
 
                 <div className="flex items-center gap-2 flex-shrink-0">
@@ -368,7 +365,7 @@ function TilTopDashboard({ onExit }: { onExit: () => void }) {
                     className="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-accent-500 hover:bg-accent-600 text-white text-sm font-semibold transition-colors cursor-pointer"
                   >
                     <Gamepad2 className="w-4 h-4" />
-                    {t('hero.interactive_games', "O'yinlar")}
+                    {t('nav.games', "O'yinlar")}
                   </button>
                   <button
                     type="button"
@@ -407,19 +404,9 @@ function TilTopDashboard({ onExit }: { onExit: () => void }) {
                         ? t('coverage.adapting_title', 'AI darslarni tilingizga moslashtirmoqda...')
                         : t('coverage.partial_title', "Ba'zi darslar hali tarjima qilinmagan")}
                     </h3>
-                    <p className={`text-xs mt-0.5 leading-relaxed ${isAdaptingCurriculum ? 'text-accent-800' : 'text-amber-800'}`}>
-                      {isAdaptingCurriculum
-                        ? t('coverage.adapting_desc', "Yetishmayotgan darslar generatsiya qilinmoqda.")
-                        : t('coverage.partial_desc', "Quyidagi darslar ingliz tilida ko'rsatilmoqda.")}
+                    <p className={`text-xs mt-0.5 ${isAdaptingCurriculum ? 'text-accent-800' : 'text-amber-800'}`}>
+                      {coverage.covered.length}/{coverage.total} {t('coverage.localized', 'moslashtirilgan')}
                     </p>
-                    <div className="flex items-center gap-2 mt-1.5 flex-wrap">
-                      <span className="px-2 py-0.5 rounded bg-surface border border-line text-[11px] font-semibold text-ink tabular-nums">
-                        {coverage.covered.length}/{coverage.total} {t('coverage.localized', 'moslashtirilgan')}
-                      </span>
-                      <span className="text-[11px] text-ink-muted truncate">
-                        {t('coverage.pending_sections', 'Kutilmoqda')}: #{coverage.missing.join(', #')}
-                      </span>
-                    </div>
                   </div>
 
                   {!isAdaptingCurriculum && (
@@ -505,9 +492,6 @@ function TilTopDashboard({ onExit }: { onExit: () => void }) {
                   <h3 className="text-sm font-semibold text-ink">
                     {t('search.empty_title', 'Mos keluvchi ssenariy topilmadi')}
                   </h3>
-                  <p className="text-xs text-ink-muted max-w-sm mx-auto">
-                    {t('search.empty_desc', "Qidiruv so'zini o'zgartirib ko'ring yoki filtrlarni tozalang.")}
-                  </p>
                   <button
                     type="button"
                     onClick={() => {
@@ -572,11 +556,8 @@ function TilTopDashboard({ onExit }: { onExit: () => void }) {
         </main>
 
         <footer className="border-t border-line py-5 px-4 sm:px-6">
-          <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-ink-subtle">
-            <span className="font-semibold text-ink-muted">
-              {t('footer.platform', 'TilTop')}
-            </span>
-            <span>{t('footer.desc', "Shaxsiylashtirilgan til ta'limi platformasi")}</span>
+          <div className="max-w-6xl mx-auto text-xs text-ink-subtle">
+            <span className="font-semibold text-ink-muted">TilTop</span>
           </div>
         </footer>
       </div>

@@ -87,18 +87,13 @@ export const ScenarioCard: React.FC<ScenarioCardProps> = ({
       className="group bg-surface rounded-xl border border-line hover:border-accent-300 p-5 flex flex-col lift"
     >
       {/* Header */}
-      <div className="flex items-start justify-between gap-3 mb-4">
+      <div className="flex items-start justify-between gap-3 mb-3.5">
         <div className="flex items-center gap-2.5 min-w-0">
           <span className="w-9 h-9 rounded-lg bg-accent-50 text-accent-600 flex items-center justify-center flex-shrink-0">
             <IconComponent className="w-[18px] h-[18px]" />
           </span>
-          <span className="min-w-0">
-            <span className="block text-[11px] font-medium text-ink-subtle tabular-nums">
-              #{section.section_id} · {translateCategory(t, section.category)}
-            </span>
-            <span className="block text-[11px] text-ink-subtle">
-              {DIFFICULTY_LABEL[section.difficulty] || translateDifficulty(t, section.difficulty)}
-            </span>
+          <span className="min-w-0 text-[11px] font-medium text-ink-subtle tabular-nums truncate">
+            #{section.section_id} · {DIFFICULTY_LABEL[section.difficulty] || translateDifficulty(t, section.difficulty)}
           </span>
         </div>
 
@@ -126,29 +121,13 @@ export const ScenarioCard: React.FC<ScenarioCardProps> = ({
         </div>
       </div>
 
-      {/* Title */}
+      {/* Title — the one thing a learner should read on this card */}
       <h3 className="text-base font-semibold text-ink leading-snug group-hover:text-accent-700 transition-colors">
         {section.title}
       </h3>
-      {section.title_en && section.title_en !== section.title && (
-        <p className="text-xs text-ink-subtle mt-0.5 truncate">{section.title_en}</p>
-      )}
-
-      <p className="text-xs text-ink-muted mt-2.5 leading-relaxed line-clamp-2">
-        {section.scenario_context}
+      <p className="text-xs text-ink-subtle mt-1 truncate">
+        {translateCategory(t, section.category)}
       </p>
-
-      {/* Roles */}
-      <dl className="mt-4 space-y-1 text-[11px]">
-        <div className="flex items-baseline gap-2">
-          <dt className="text-ink-subtle flex-shrink-0 w-8">AI</dt>
-          <dd className="text-ink-muted truncate">{section.ai_role}</dd>
-        </div>
-        <div className="flex items-baseline gap-2">
-          <dt className="text-ink-subtle flex-shrink-0 w-8">{t('card.role', 'Rol')}</dt>
-          <dd className="text-ink-muted truncate">{section.user_role}</dd>
-        </div>
-      </dl>
 
       {/* Footer */}
       <div className="mt-auto pt-4">
